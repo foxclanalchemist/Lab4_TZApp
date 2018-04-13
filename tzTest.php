@@ -14,39 +14,40 @@
 	//echo $ipData["timezone"] ;
 
 	if ($ipData['timezone']) {
-		//$current = new DateTimeZone( $ipData['timezone']);
+		
 		$current = $ipData['timezone'];
-		//echo "yes " ;
-		//$now = new DateTime( 'now', $tz); // DateTime object corellated to user's timezone
+		
 	} else {
 		$current = "America/New_York";
-		//echo "no ";
+		
 	}
 	
+	//Convert incomming time to time format and set to DateTime Objects
 	$startT = $startH.":".$startM.":00";
 	$endT = $endH.":".$endM.":00";
 	$startZ = new DateTime($startT);
 	$endZ = new DateTime($endT);
 	
-	date_default_timezone_set($current);
+	date_default_timezone_set($current); //get current timezone of user
 
 	echo "Current time zone by IP address:   ".$current.":  ";
 	
-	$date =  date("Y-m-d h:i:s");
+	$date =  date("Y-m-d h:i:s"); //get current dateTime
 	
-	$dateTime = new DateTime($date);
+	$dateTime = new DateTime($date); //make dateTime object
 	
 	echo "EST ".$dateTime->format('Y-m-d H:i:s')."<br><br>";
 	
-	$newZone = new DateTimeZone($zone);
+	$newZone = new DateTimeZone($zone); //make destination time zone object
 	
-	$dateTime->setTimezone($newZone);
+	$dateTime->setTimezone($newZone);//rest to desired timezone
 	
 	echo "Current time in the destination time zone:   $zone:   ".$dateTime->format('Y-m-d H:i:s')."<br><br>";
 	
 	echo "Local time frame in current time zone is from start at:  ".
 				$startZ->format('H:i:s')."   To end at:  ".$endZ->format('H:i:s')."<br><br>";
 	
+	//translate given time frame to new timezone
 	$startZ->setTimezone($newZone);
 	$endZ->setTimezone($newZone);
 		
